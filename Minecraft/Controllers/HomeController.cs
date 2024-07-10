@@ -10,7 +10,6 @@ namespace Minecraft.Controllers
 
         public HomeController(ILogger<HomeController> logger)
         {
-            int a = 2;
             _logger = logger;
         }
 
