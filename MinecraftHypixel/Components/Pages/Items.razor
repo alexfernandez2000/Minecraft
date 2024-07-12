@@ -1,0 +1,19 @@
+﻿@page "/items"
+@using MinecraftHypixel.Controllers
+@inject ItemController _controller
+
+<PageTitle>Items</PageTitle>
+
+<h1>Prueba items @test</h1>
+<button @onclick="Test">Call Function</button>
+@code {
+    string test = "Inicio";
+    private async Task Test()
+    {
+        test = await _controller.GetItems();
+    }
+    protected override async void OnInitialized()
+    {
+        test = await _controller.GetItems();
+    }
+}
