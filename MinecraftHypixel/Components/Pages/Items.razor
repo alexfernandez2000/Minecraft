@@ -1,11 +1,15 @@
 ﻿@page "/items"
+@rendermode InteractiveServer
 @using MinecraftHypixel.Controllers
+
 @inject ItemController _controller
 
 <PageTitle>Items</PageTitle>
 
 <h1>Prueba items @test</h1>
-<button @onclick="Test">Call Function</button>
+<p>
+    <button class="btn btn-primary" @onclick="Test">Click me</button>
+</p>
 @code {
     string test = "Inicio";
     private async Task Test()
@@ -14,6 +18,6 @@
     }
     protected override async void OnInitialized()
     {
-        test = await _controller.GetItems();
+        //test = await _controller.GetItems();
     }
 }
