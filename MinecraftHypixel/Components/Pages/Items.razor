@@ -1,20 +1,47 @@
 ﻿@page "/items"
 @rendermode InteractiveServer
 @using MinecraftHypixel.Controllers
+@using MinecraftHypixel.Models
 
 @inject ItemController _controller
 
 <PageTitle>Items</PageTitle>
 
 <h1>Prueba items @test</h1>
-<p>
-    <button class="btn btn-primary" @onclick="Test">Click me</button>
-</p>
+<button class="btn btn-primary" @onclick="Test">List</button>
+@if(ItemsList != null)
+{
+    <table class="table table-striped table-bordered table-hover mt-3">
+        <thead class="table-dark">
+        <th>Id</th>
+        <th>Material</th>
+        <th>Color</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Tier</th>
+        </thead>
+        <tbody>
+            @foreach (Item item in ItemsList)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Material</td>
+                    <td>@item.Color</td>
+                    <td>@item.Name</td>
+                    <td>@item.Category</td>
+                    <td>@item.Tier</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 @code {
     string test = "Inicio";
+    IEnumerable<Item>? ItemsList;
     private async Task Test()
     {
-        test = await _controller.GetItems();
+        ItemsList = await _controller.GetItems();
     }
     protected override async void OnInitialized()
     {
