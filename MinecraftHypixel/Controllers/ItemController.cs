@@ -1,4 +1,5 @@
-﻿using MinecraftHypixel.Models;
+﻿using MinecraftHypixel.Components.Pages;
+using MinecraftHypixel.Models;
 
 namespace MinecraftHypixel.Controllers
 {
@@ -15,7 +16,11 @@ namespace MinecraftHypixel.Controllers
             items.Add(new Item() { Id = "ID2", Material = "DIAMENTE", Name = "DIAMENTE", Category = "MINERAL", Color = "AZUL", Stats = "OK", Tier = "SEMIGOD" });
             items.Add(new Item() { Id = "ID3", Material = "DIAMENTE", Name = "DIAMENTE", Category = "MINERAL", Color = "AZUL", Stats = "OK", Tier = "SEMIGOD" });
 
-            return items;
+            return await Task.FromResult(items);
+        }
+        public async Task AddItem(Item item)
+        {
+            await Task.CompletedTask;
         }
     }
 }

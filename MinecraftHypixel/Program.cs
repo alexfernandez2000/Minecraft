@@ -6,8 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+#region controller
 builder.Services.AddScoped<ItemController>();
-
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

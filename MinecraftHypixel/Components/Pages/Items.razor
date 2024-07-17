@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @using MinecraftHypixel.Controllers
 @using MinecraftHypixel.Models
+@using MinecraftHypixel.Components.Pages
 
 @inject ItemController _controller
 
@@ -34,17 +35,30 @@
             }
         </tbody>
     </table>
+    <ItemEdit IsVisible="@showItemEdit" OnClose="OnCloseItemEdit">
+        <h2>Popup Content</h2>
+        <p>This is the content of the popup.</p>
+        <button @onclick="OnCloseItemEdit">Close</button>
+    </ItemEdit>
+
+
 }
 
 @code {
     string test = "Inicio";
     IEnumerable<Item>? ItemsList;
+    bool showItemEdit = false;
     private async Task Test()
     {
-        ItemsList = await _controller.GetItems();
+        //ItemsList = await _controller.GetItems();
+        showItemEdit = true;
     }
-    protected override async void OnInitialized()
+    private async Task OnCloseItemEdit()
     {
-        //test = await _controller.GetItems();
+        showItemEdit = false;
     }
+    // protected override async void OnInitialized()
+    // {
+    //     //test = await _controller.GetItems();
+    // }
 }
