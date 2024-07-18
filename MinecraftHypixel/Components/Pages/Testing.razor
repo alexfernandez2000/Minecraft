@@ -1,0 +1,26 @@
+﻿@page "/Testing"
+@using MinecraftHypixel.Components.Pages
+
+<h3>Index</h3>
+
+<button @onclick="ShowPopup">Show Popup</button>
+
+<Popup IsVisible="@isPopupVisible" OnClose="HidePopup">
+    <h2>Popup Content</h2>
+    <p>This is the content of the popup.</p>
+    <button @onclick="HidePopup">Close</button>
+</Popup>
+
+@code {
+    private bool isPopupVisible = false;
+
+    private void ShowPopup()
+    {
+        isPopupVisible = true;
+    }
+
+    private void HidePopup()
+    {
+        isPopupVisible = false;
+    }
+}
