@@ -1,8 +1,8 @@
 ﻿@{
-    var showClass = IsVisible ? "d-block" : "d-none";
+    var showClass = IsVisible ? "d-grid" : "d-none";
 }
 
-<div class="toast-container p-3 @showClass" data-bs-autohide="true" data-bs-delay="5000">
+<div class="popup bal @showClass" data-bs-autohide="true" data-bs-delay="5000">
     <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <strong class="me-auto">@HeaderText</strong>
@@ -44,3 +44,17 @@
         StateHasChanged();
     }
 }
+<style>
+    .popup
+    {
+        place-items: center;
+        height: 100%;
+        width:100%;
+
+        top:0;
+        left:0;
+        text-align: center;
+        background-color: rgba(0,0,0,0.5);
+        position:fixed;
+    }
+</style>
