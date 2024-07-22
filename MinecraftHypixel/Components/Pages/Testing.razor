@@ -11,10 +11,10 @@
 
 @code {
     private bool isPopupVisible = false;
-    private Popup popupRef;
+    private Popup popupRef=new Popup();
 
     private void ShowPopup()
     {
-        popupRef.Show("Popup body text");
+        popupRef.Show("Popup body text","Header");
     }
 }
