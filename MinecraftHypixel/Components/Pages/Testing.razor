@@ -7,14 +7,13 @@
 
 <button @onclick="ShowPopup">Show Popup</button>
 
-<Popup @ref="popupRef" />
+<Popup @ref="_popupRef" />
 
 @code {
-    private bool isPopupVisible = false;
-    private Popup popupRef=new Popup();
+    private Popup _popupRef=new Popup();
 
     private void ShowPopup()
     {
-        popupRef.Show("Popup body text","Header");
+        _popupRef.Show("Popup body text","Header");
     }
 }
