@@ -1,4 +1,5 @@
-﻿@{
+﻿@using MinecraftHypixel.Models
+@{
     var _showClass = IsVisible ? "d-grid" : "d-none";
 }
 
@@ -10,6 +11,22 @@
         </div>
 
         <div class="toast-body">
+            <EditForm Model="_item" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <InputText id="name" class="form-control" @bind-Value="_item.Name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Id:</label>
+                    <InputText id="Id" class="form-control" @bind-Value="_item.Id" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </EditForm>
 
         </div>
     </div>
@@ -22,8 +39,9 @@
     [Parameter]
     public EventCallback<bool> IsVisibleChanged { get; set; }
 
+    private Item _item = new Item();
 
-    public void Show(Items item)
+    public void Show()
     {
         IsVisible = true;
         StateHasChanged();
@@ -34,6 +52,12 @@
         IsVisible = false;
         StateHasChanged();
     }
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine("User registered!");
+        // Logic to handle form submission
+    }
+
 }
 <style>
     .popup {
