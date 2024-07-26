@@ -1,4 +1,5 @@
 ﻿@using MinecraftHypixel.Models
+@using System.Reflection
 @{
     var _showClass = IsVisible ? "d-grid" : "d-none";
 }
@@ -13,8 +14,15 @@
         <div class="toast-body">
             <EditForm Model="_item" OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
-                <ValidationSummary />
-                <div class="form-group">
+                @foreach (PropertyInfo item in _item.GetType().GetProperties())
+                {
+                    <div class="form-group">
+                        <label for="@item.Name">@item.Name:</label>
+                        <InputText id="@item.Name" class="form-control" @bind-Value="_item.Name" />
+                    </div>
+
+                }
+                    <div class="form-group">
                     <label for="name">Name:</label>
                     <InputText id="name" class="form-control" @bind-Value="_item.Name" />
                 </div>
@@ -22,6 +30,8 @@
                 <div class="form-group">
                     <label for="email">Id:</label>
                     <InputText id="Id" class="form-control" @bind-Value="_item.Id" />
+                    <ValidationMessage For="@(() => _item.Id)" />
+
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -44,6 +54,7 @@
     public void Show()
     {
         IsVisible = true;
+        var test=_item.GetType().GetProperties();
         StateHasChanged();
     }
 
