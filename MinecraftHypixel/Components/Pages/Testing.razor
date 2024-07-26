@@ -2,18 +2,30 @@
 @rendermode InteractiveServer
 
 @using MinecraftHypixel.Components.Pages
+@using MinecraftHypixel.Components.Pages.Common
+@using MinecraftHypixel.Models
 
 <h3>Index</h3>
 
 <button @onclick="ShowPopup">Show Popup</button>
+<button @onclick="ShowForm">Show Form</button>
 
 <Popup @ref="_popupRef" />
-
+<GenericForm T="Item" @ref="_genericFormRef"/>
 @code {
     private Popup _popupRef=new Popup();
+    private GenericForm<Item> _genericFormRef = new GenericForm<Item>();
+
 
     private void ShowPopup()
     {
         _popupRef.Show("Popup body text","Header");
     }
+    private void ShowForm()
+    {
+        List<Item> list = new List<Item>();
+        list.Add(new Item(){Id="Aleluya",Name="Works"});
+        _genericFormRef.Show(list);
+    }
+
 }

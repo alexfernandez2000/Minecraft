@@ -1,12 +1,8 @@
-﻿@page "/"
-@using System.Collections.Generic
+﻿@using System.Collections.Generic
 @typeparam T
 @if (@Object!=null)
 {
     <label for="@Object.GetType().Name">@Object.GetType().Name:</label>
-<GenericInput T="int" @bind-Value="intValue" />
-
-    <GenericInput id="@Object.GetType().Name" class="form-control" @bind-Value="Object2"/>
 
 }
 @code {
