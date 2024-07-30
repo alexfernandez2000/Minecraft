@@ -1,54 +1,8 @@
 ﻿@using System.Reflection
 @typeparam T
 
-@{
-    var _showClass = IsVisible ? "d-grid" : "d-none";
-}
-@if(IsVisible)
-{
-    <table class="table table-striped table-bordered table-hover mt-3">
-        <thead class="table-dark">
-            @foreach (var item in _objectList!.GetType().GetProperties().Select(x => x.Name).ToList())
-            {
-            <th>@item</th>
-            }
 
-        </thead>
-        <tbody>
-            @foreach (T item in _objectList)
-            {
-            <tr>
-                @foreach (PropertyInfo propertyInfo in item!.GetType().GetProperties())
-                {
-                    <td>@propertyInfo.GetValue(item)</td>
-                }
-
-            </tr>
-            }
-        </tbody>
-    </table>
-}
 
 @code {
-    [Parameter]
-    public bool IsVisible { get; set; }
 
-    [Parameter]
-    public EventCallback<bool> IsVisibleChanged { get; set; }
-
-    private List<T>? _objectList;
-    private List<PropertyInfo>? _properyList;
-
-    public void Show(List<T> ObjectList)
-    {
-        _objectList = ObjectList;
-        IsVisible = true;
-        StateHasChanged();
-    }
-
-    private void Close()
-    {
-        IsVisible = false;
-        StateHasChanged();
-    }
 }

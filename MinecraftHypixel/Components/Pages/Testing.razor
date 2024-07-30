@@ -11,10 +11,10 @@
 <button @onclick="ShowForm">Show Form</button>
 
 <Popup @ref="_popupRef" />
-<GenericForm T="Item" @ref="_genericFormRef"/>
+<GenericTable T="Item" @ref="_genericFormRef"/>
 @code {
     private Popup _popupRef=new Popup();
-    private GenericForm<Item> _genericFormRef = new GenericForm<Item>();
+    private GenericTable<Item> _genericFormRef = new GenericTable<Item>();
 
 
     private void ShowPopup()

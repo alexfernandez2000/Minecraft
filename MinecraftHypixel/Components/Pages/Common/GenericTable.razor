@@ -1,0 +1,63 @@
+﻿@using System.Reflection
+@typeparam T
+
+@{
+    var _showClass = IsVisible ? "d-grid" : "d-none";
+}
+@if(IsVisible)
+{
+    <table class="table table-striped table-bordered table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                @foreach (string propertyName in _nameProperties)
+                {
+                    <th>@propertyName</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (T item in _objectList!)
+            {
+            <tr class="mt-5">
+                @foreach (PropertyInfo propertyInfo in _properyList)
+                {
+                    <td>@propertyInfo.GetValue(item)</td>
+                }
+
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsVisibleChanged { get; set; }
+
+    private List<T>? _objectList;
+    private List<PropertyInfo> _properyList = typeof(T).GetProperties().ToList();
+    private List<string> _nameProperties = typeof(T).GetProperties().Select(x => x.Name).ToList();
+    public void Show(List<T> objectList)
+    {
+        if (objectList!=null)
+        {
+            _objectList = objectList;
+            IsVisible = true;
+            StateHasChanged();
+        }
+        else
+        {
+            throw new Exception("ObjectList can not be null");
+        }
+    }
+
+    private void Close()
+    {
+        IsVisible = false;
+        StateHasChanged();
+    }
+}
