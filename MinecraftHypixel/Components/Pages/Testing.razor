@@ -10,7 +10,9 @@
 <button @onclick="ShowPopup">Show Popup</button>
 <button @onclick="ShowForm">Show Form</button>
 
-<Popup @ref="_popupRef" />
+<Popup @ref="_popupRef">
+    <div>Shiro la mejor</div>
+</Popup>
 <GenericTable T="Item" @ref="_genericFormRef"/>
 @code {
     private Popup _popupRef=new Popup();
@@ -19,7 +21,7 @@
 
     private void ShowPopup()
     {
-        _popupRef.Show("Popup body text","Header");
+        _popupRef.Show("Header");
     }
     private void ShowForm()
     {
