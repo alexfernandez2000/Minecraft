@@ -1,8 +1,49 @@
 ﻿@using System.Reflection
 @typeparam T
 
+@if(Model!=null)
+{
+    <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        @foreach (var property in typeof(T).GetProperties())
+        {
+            <div>
+                <label>@property.Name:</label>
+                @{
+                    var propertyType = property.PropertyType;
+                    if (propertyType == typeof(string))
+                    {
+                        <input id="@property.Name" @oninput='(e) => HandleInputChange(e, property.Name)' class="form-control" />
+                    }
+                    // Add more type checks as needed
+                }
+            </div>
+        }
 
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
 
+}
 @code {
+    [Parameter] public T? Model { get; set; }
+    [Parameter] public EventCallback<T> OnValidSubmit { get; set; }
 
+
+    private void HandleInputChange(ChangeEventArgs e,string propertyName)
+    {
+        PropertyInfo? property = typeof(T).GetProperty(propertyName);
+        if (property!=null)
+        {
+            property.SetValue(Model, e.Value);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (OnValidSubmit.HasDelegate)
+        {
+            await OnValidSubmit.InvokeAsync(Model);
+        }
+    }
 }

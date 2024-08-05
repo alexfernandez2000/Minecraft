@@ -12,6 +12,8 @@ namespace MinecraftHypixel.Models
         public string? Category { get; set; }
         public string? Tier { get; set; }
         public string? Stats { get; set; }
+        public int? Price { get; set; }
+
         public Item()
         {
         }

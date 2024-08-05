@@ -38,9 +38,9 @@
     [Parameter]
     public EventCallback<bool> IsVisibleChanged { get; set; }
 
-    private List<T>? _objectList;
-    private List<PropertyInfo> _properyList = typeof(T).GetProperties().ToList();
-    private List<string> _nameProperties = typeof(T).GetProperties().Select(x => x.Name).ToList();
+    private IEnumerable<T>? _objectList;
+    private IEnumerable<PropertyInfo> _properyList = typeof(T).GetProperties();
+    private IEnumerable<string> _nameProperties = typeof(T).GetProperties().Select(x => x.Name);
     public void Show(List<T> objectList)
     {
         if (objectList!=null)
