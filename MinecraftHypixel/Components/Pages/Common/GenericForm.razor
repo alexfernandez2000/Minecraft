@@ -6,17 +6,23 @@
     <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        @foreach (var property in typeof(T).GetProperties())
+        @foreach (PropertyInfo property in typeof(T).GetProperties())
         {
             <div>
                 <label>@property.Name:</label>
-                @{
-                    var propertyType = property.PropertyType;
-                    if (propertyType == typeof(string))
+               @{
+                    Type propertyType = property.PropertyType;
+                    Type underlyingType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+
+
+                    if (underlyingType == typeof(string))
                     {
                         <input id="@property.Name" @oninput='(e) => HandleInputChange(e, property.Name)' class="form-control" />
                     }
-                    // Add more type checks as needed
+                    else if (underlyingType == typeof(int))
+                    {
+                        <input id="@property.Name" type="number" step="1" @oninput='(e) => HandleInputChange(e, property.Name)' class="form-control" />
+                    }
                 }
             </div>
         }
@@ -33,9 +39,36 @@
     private void HandleInputChange(ChangeEventArgs e,string propertyName)
     {
         PropertyInfo? property = typeof(T).GetProperty(propertyName);
-        if (property!=null)
+
+        if (property!=null && e.Value!=null)
         {
-            property.SetValue(Model, e.Value);
+            Type propertyType = property.PropertyType;
+            Type underlyingType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+            if (underlyingType == typeof(string))
+            {
+                property.SetValue(Model, e.Value);
+
+            }
+            else if (underlyingType == typeof(int))
+            {
+                property.SetValue(Model, int.Parse(e.Value.ToString()!));
+
+            }
+            else if (underlyingType == typeof(double))
+            {
+                property.SetValue(Model, (double)e.Value);
+
+            }
+            else if (underlyingType == typeof(DateTime))
+            {
+                property.SetValue(Model, (DateTime)e.Value);
+
+            }
+            else if (underlyingType == typeof(bool))
+            {
+                property.SetValue(Model, (bool)e.Value);
+            }
+
         }
     }
 

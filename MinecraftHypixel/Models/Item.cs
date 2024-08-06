@@ -4,6 +4,7 @@ namespace MinecraftHypixel.Models
 {
     public class Item
     {
+        public int? Price { get; set; }
         [Required(ErrorMessage = "Id is required")]
         public string? Id { get; set; }
         public string? Name { get; set; }
@@ -12,7 +13,6 @@ namespace MinecraftHypixel.Models
         public string? Category { get; set; }
         public string? Tier { get; set; }
         public string? Stats { get; set; }
-        public int? Price { get; set; }
 
         public Item()
         {
