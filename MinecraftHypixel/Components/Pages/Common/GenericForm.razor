@@ -1,4 +1,6 @@
 ﻿@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+@using MinecraftHypixel.Models
 @typeparam T
 
 @if(Model!=null)
@@ -34,8 +36,7 @@
 @code {
     [Parameter] public T? Model { get; set; }
     [Parameter] public EventCallback<T> OnValidSubmit { get; set; }
-
-
+    private IEnumerable<DinamicFormClass>? _propertyList;
     private void HandleInputChange(ChangeEventArgs e,string propertyName)
     {
         PropertyInfo? property = typeof(T).GetProperty(propertyName);
@@ -51,7 +52,10 @@
             }
             else if (underlyingType == typeof(int))
             {
-                property.SetValue(Model, int.Parse(e.Value.ToString()!));
+                if(int.TryParse(e.Value.ToString(), out int parsedValue))
+                {
+                    property.SetValue(Model, parsedValue);
+                }
 
             }
             else if (underlyingType == typeof(double))
@@ -71,6 +75,14 @@
 
         }
     }
+    public static List<ValidationResult> ValidateModel(object model)
+    {
+        var results = new List<ValidationResult>();
+        var context = new ValidationContext(model, serviceProvider: null, items: null);
+        Validator.TryValidateObject(model, context, results, validateAllProperties: true);
+
+        return results;
+    }
 
     private async Task HandleValidSubmit()
     {
@@ -78,5 +90,15 @@
         {
             await OnValidSubmit.InvokeAsync(Model);
         }
+    }
+    protected override void OnInitialized()
+    {
+        List<DinamicFormClass> propertyList = new List<DinamicFormClass>();
+        foreach (PropertyInfo property in typeof(T).GetProperties())
+        {
+            DinamicFormClass formClass = new DinamicFormClass(property);
+            propertyList.Add(formClass);
+        }
+        
     }
 }
