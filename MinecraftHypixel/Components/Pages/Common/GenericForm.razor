@@ -31,7 +31,12 @@
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </EditForm>
-
+    <script type="text/javascript">
+        function changeColor(newColor) {
+            const elem = document.getElementById("para");
+            elem.style.color = newColor;
+        }
+    </script>
 }
 @code {
     [Parameter] public T? Model { get; set; }
@@ -48,7 +53,6 @@
             if (underlyingType == typeof(string))
             {
                 property.SetValue(Model, e.Value);
-
             }
             else if (underlyingType == typeof(int))
             {
@@ -96,7 +100,7 @@
         List<DinamicFormClass> propertyList = new List<DinamicFormClass>();
         foreach (PropertyInfo property in typeof(T).GetProperties())
         {
-            DinamicFormClass formClass = new DinamicFormClass(property);
+            DinamicFormClass formClass = new DinamicFormClass(){Property=property};
             propertyList.Add(formClass);
         }
         

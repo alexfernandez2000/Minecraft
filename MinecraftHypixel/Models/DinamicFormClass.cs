@@ -7,22 +7,28 @@ namespace MinecraftHypixel.Models
     {
         public PropertyInfo Property { get; set; }
         public bool ShowErrorMessage { get; set; }
-        public string ErrorMessage { get; set; }
-        public DinamicFormClass(PropertyInfo property)
+        public IEnumerable<ValidationResult> Validate(object obj)
         {
-            ErrorMessage=GetErrorMessageFromProperty(property);
-            Property = property;
-            ShowErrorMessage=false;
+            List<ValidationResult> results = new List<ValidationResult>();
+            object? value = Property.GetValue(obj);
+
+            ValidationContext context = new ValidationContext(obj) { MemberName = Property.Name };
+            Validator.TryValidateProperty(value, context, results);
+            
+            return results;
         }
-        private static string GetErrorMessageFromProperty(PropertyInfo property)
+        //TODO Concat if there is more than one error message
+        public string GetErrorMessage(PropertyInfo propertyInfo)
         {
-            // Obtener el primer ValidationAttribute (o nulo si no hay ninguno)
-            var attribute = property.GetCustomAttributes(typeof(ValidationAttribute), true)
+            ValidationAttribute? attribute = propertyInfo.GetCustomAttributes(typeof(ValidationAttribute), true)
                                     .Cast<ValidationAttribute>()
                                     .FirstOrDefault();
 
-            // Si se encuentra un ValidationAttribute, devolver su mensaje de error
-            return attribute?.ErrorMessage ?? "No validation attribute found.";
+            if (attribute!=null && attribute.ErrorMessage!=null)
+            {
+                return attribute.ErrorMessage;
+            }
+            return "Missing error message.";
         }
 
     }
